@@ -1,3 +1,65 @@
+$days: (
+  "mon": 0,
+  "tue": 1,
+  "wed": 2,
+  "thu": 3,
+  "fri": 4,
+  "sat": 5,
+  "sun": 6
+);
+$size: 100px;
+
 body {
-  margin: 0;
+  margin: 50px 0;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing: border-box;
+  width: 8*100px;
+}
+
+.calendar div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: black;
+  height: $size;
+  width: $size;
+  background-color: #eee;
+  border: 1px solid black;
+  margin: 1px;
+}
+
+.calendar div:hover {
+  background-color: pink;
+  cursor: pointer;
+  transform: translate(0, -20px);
+  transition: 0.5s;
+}
+
+@for $i from 1 through 31 {
+  .calendar :nth-child(#{$i})::before {
+    content: "#{$i}";
+  }
+}
+
+@for $i from 28 through 31 {
+  .calendar-#{$i} > div:nth-child(n+#{$i+1}) {
+    display: none;
+  }
+}
+
+@each $day, $order in $days {
+  .calendar-#{$day} > div:first-child {
+    margin-left: $order* ($size+5px);
+  }
 }
